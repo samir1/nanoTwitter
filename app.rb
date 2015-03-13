@@ -14,7 +14,7 @@ end
 before '/secure/*' do
   if !session[:identity] then
     session[:previous_url] = request.path
-    @error = 'Sorry guacamole, you need to be logged in to visit ' + request.path
+    @error = 'Must be logged into to visit ' + request.path
     halt erb(:login_form)
   end
 end
@@ -40,5 +40,5 @@ end
 
 
 get '/secure/place' do
-  erb "This is a secret place that only <%=session[:identity]%> has access to!"
+  erb "Only <%=session[:identity]%> can access this page"
 end
