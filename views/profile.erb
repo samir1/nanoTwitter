@@ -1,4 +1,4 @@
-<h3>@<%= session[:identity] %>'s Profile</h3>
-Name:<br />
-Email:<br />
+<h3>@<%= session[:username] %>'s Profile</h3>
+Name: <%= session[:firstname] + ' ' + session[:lastname] %> <br />
+Email: <%= session[:email] %><br />
 Followers:<br />

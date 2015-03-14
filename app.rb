@@ -16,12 +16,12 @@ end
 
 helpers do
   def username
-    session[:identity] ? session[:identity] : 'Login'
+    session[:username] ? session[:username] : 'Login'
   end
 end
 
 before '/user/profile' do
-  if !session[:identity] then
+  if !session[:username] then
     session[:previous_url] = request.path
     @error = 'Must be logged into to visit ' + request.path
     halt erb(:login_form)
@@ -29,7 +29,7 @@ before '/user/profile' do
 end
 
 get '/' do
-  if session[:identity]
+  if session[:username]
     erb :timeline
   else
     erb :main
@@ -41,13 +41,21 @@ get '/login' do
 end
 
 post '/login/attempt' do
-  session[:identity] = params['username']
+  @current_user = User.find_by(username: params[:username], password: params[:password])
+  if !@current_user
+    redirect to '/login'
+  else
+    session[:username] = @current_user.username
+    session[:firstname] = @current_user.firstname
+    session[:lastname] = @current_user.lastname
+    session[:email] = @current_user.email
+  end
   where_user_came_from = session[:previous_url] || '/'
   redirect to where_user_came_from 
 end
 
 get '/logout' do
-  session.delete(:identity)
+  session.clear
   erb "<div class='alert alert-message'>Logged out</div>"
 end
 
@@ -69,11 +77,21 @@ delete '/delete/:id' do
 end
 
 get '/user/register' do
-    erb :register
+  erb :register
 end
 
-put '/register/attempt' do
- puts 'register a user'
+post '/user/register/attempt' do
+  # u = User.new(firstname: "Samir", lastname: "Undavia", username: "samir1", email: "samir1@brandeis.edu", password: "samir123")
+  @current_user = User.new(firstname: params[:firstname], lastname: params[:lastname], username: params[:username], email: params[:email], password: params[:password])
+  if @current_user.save
+    session[:username] = params[:username]
+    session[:firstname] = params[:firstname]
+    session[:lastname] = params[:lastname]
+    session[:email] = params[:email]
+    redirect "/user/profile"
+  else
+    erb :register
+  end
 end
 
 

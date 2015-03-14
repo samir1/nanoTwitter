@@ -1,6 +1,9 @@
-<form action='/register/attempt' method='put' class="form-inline well">
-  <input type="text" name='username' placeholder="username" autofocus><br /><br />
-  <input type="text" name='password' placeholder="password"><br /><br />
-  <input type="text" name='passwordconfirm' placeholder="confirm password"><br /><br />
-  <input class="btn primary" type='submit' value='log in'>
+<form action='/user/register/attempt' method='post' class="form-inline well">
+  <input type="text" name='firstname' placeholder="first name" autofocus><br /><br />
+  <input type="text" name='lastname' placeholder="last name" autofocus><br /><br />
+  <input type="email" name='email' placeholder="email" ><br /><br />
+  <input type="text" name='username' placeholder="username" ><br /><br />
+  <input type="password" name='password' placeholder="password"><br /><br />
+  <input type="password" name='passwordconfirm' placeholder="confirm password"><br /><br />
+  <input class="btn primary" type='submit' value='Register'>
 </form>
