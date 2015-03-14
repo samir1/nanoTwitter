@@ -90,7 +90,6 @@ get '/user/register' do
 end
 
 post '/user/register/attempt' do
-  # u = User.new(name: "Samir Undavia", username: "samir1", email: "samir1@brandeis.edu", password: "samir123")
   @current_user = User.new(name: params[:name], username: params[:username], email: params[:email], password: params[:password])
   if @current_user.save
     session[:username] = params[:username]
@@ -104,9 +103,7 @@ post '/user/register/attempt' do
 end
 
 post '/tweet' do
-  puts '****************1'
   tweet = Tweet.new(text: params[:tweet], owner: session[:id])
-  puts '****************2'
   tweet.save!
   redirect to '/'
 end
