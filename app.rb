@@ -46,7 +46,7 @@ post '/login/attempt' do
   redirect to where_user_came_from 
 end
 
-get '/register' do
+get '/user/register' do
 end
 
 get '/logout' do
@@ -56,7 +56,7 @@ end
 
 
 get '/user/profile' do
-  erb :timeline
+  erb :profile
 end
 
 
