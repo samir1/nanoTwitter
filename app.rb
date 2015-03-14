@@ -29,7 +29,7 @@ end
 
 post '/login/attempt' do
   session[:identity] = params['username']
-  where_user_came_from = session[:previous_url] || '/'
+  where_user_came_from = session[:previous_url] || '/secure/timeline'
   redirect to where_user_came_from 
 end
 
@@ -39,6 +39,6 @@ get '/logout' do
 end
 
 
-get '/secure/place' do
-  erb "Only <%=session[:identity]%> can access this page"
+get '/secure/timeline' do
+  erb :timeline
 end
