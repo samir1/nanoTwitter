@@ -42,7 +42,7 @@ end
 
 post '/login/attempt' do
   session[:identity] = params['username']
-  where_user_came_from = session[:previous_url] || '/secure/timeline'
+  where_user_came_from = session[:previous_url] || '/'
   redirect to where_user_came_from 
 end
 
@@ -58,7 +58,7 @@ end
 
 
 #tweets
-delete '/secure/:id' do
+delete '/delete/:id' do
         tweet = Tweet.find_by_id(params[:id])
     if tweet
         tweet.destroy
