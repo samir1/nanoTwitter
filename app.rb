@@ -54,7 +54,7 @@ end
 
 
 #tweets
-delete '/secure/:id'
+delete '/secure/:id' 
         tweet = Tweet.find_by_id(params[:id])
     if tweet
         tweet.destroy

@@ -51,3 +51,15 @@ end
 get '/secure/timeline' do
   erb :timeline
 end
+
+
+#tweets
+delete '/secure/:id' do 
+        tweet = Tweet.find_by_id(params[:id])
+    if tweet
+        tweet.destroy
+        tweet.to_json
+    else
+        error 404, {:error => "tweet not found"}.to_json
+    end
+end
