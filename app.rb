@@ -46,9 +46,6 @@ post '/login/attempt' do
   redirect to where_user_came_from 
 end
 
-get '/user/register' do
-end
-
 get '/logout' do
   session.delete(:identity)
   erb "<div class='alert alert-message'>Logged out</div>"
@@ -70,3 +67,9 @@ delete '/secure/:id' do
         error 404, {:error => "tweet not found"}.to_json
     end
 end
+
+put '/user/register' do
+    erb :register
+end
+
+
