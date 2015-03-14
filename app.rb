@@ -2,12 +2,13 @@ require 'rubygems'
 require 'sinatra'
 require 'active_record'
 require './models/user'
+require './models/tweet'
 # require 'sinatra/active_record'
 
 
 ActiveRecord::Base.establish_connection(
   :adapter => 'sqlite3',
-  :database =>  'db/sinatra_application.sqlite3.db'
+  :database =>  'db/production.sqlite3'
 )
 
 configure do
@@ -22,6 +23,14 @@ end
 
 before '/user/profile' do
   if !session[:username] then
+    session[:previous_url] = request.path
+    @error = 'Must be logged into to visit ' + request.path
+    halt erb(:login_form)
+  end
+end
+
+before '/tweet' do
+  if !session[:username] and session[:username] != @current_user.username then
     session[:previous_url] = request.path
     @error = 'Must be logged into to visit ' + request.path
     halt erb(:login_form)
@@ -46,9 +55,9 @@ post '/login/attempt' do
     redirect to '/login'
   else
     session[:username] = @current_user.username
-    session[:firstname] = @current_user.firstname
-    session[:lastname] = @current_user.lastname
+    session[:name] = @current_user.name
     session[:email] = @current_user.email
+    session[:id] = @current_user.id
   end
   where_user_came_from = session[:previous_url] || '/'
   redirect to where_user_came_from 
@@ -81,19 +90,25 @@ get '/user/register' do
 end
 
 post '/user/register/attempt' do
-  # u = User.new(firstname: "Samir", lastname: "Undavia", username: "samir1", email: "samir1@brandeis.edu", password: "samir123")
-  @current_user = User.new(firstname: params[:firstname], lastname: params[:lastname], username: params[:username], email: params[:email], password: params[:password])
+  # u = User.new(name: "Samir Undavia", username: "samir1", email: "samir1@brandeis.edu", password: "samir123")
+  @current_user = User.new(name: params[:name], username: params[:username], email: params[:email], password: params[:password])
   if @current_user.save
     session[:username] = params[:username]
-    session[:firstname] = params[:firstname]
-    session[:lastname] = params[:lastname]
+    session[:name] = params[:name]
     session[:email] = params[:email]
-    redirect "/user/profile"
+    session[:id] = params[:id]
+    redirect to "/user/profile"
   else
     erb :register
   end
 end
 
-
+post '/tweet' do
+  puts '****************1'
+  tweet = Tweet.new(text: params[:tweet], owner: session[:id])
+  puts '****************2'
+  tweet.save!
+  redirect to '/'
+end
 
 
