@@ -20,7 +20,7 @@ helpers do
   end
 end
 
-before '/secure/*' do
+before '/user/profile' do
   if !session[:identity] then
     session[:previous_url] = request.path
     @error = 'Must be logged into to visit ' + request.path
@@ -29,10 +29,14 @@ before '/secure/*' do
 end
 
 get '/' do
-  erb :main
+  if session[:identity]
+    erb :timeline
+  else
+    erb :main
+  end
 end
 
-get '/login/form' do 
+get '/login' do 
   erb :login_form
 end
 
@@ -42,19 +46,22 @@ post '/login/attempt' do
   redirect to where_user_came_from 
 end
 
+get '/register' do
+end
+
 get '/logout' do
   session.delete(:identity)
   erb "<div class='alert alert-message'>Logged out</div>"
 end
 
 
-get '/secure/timeline' do
+get '/user/profile' do
   erb :timeline
 end
 
 
 #tweets
-delete '/secure/:id'
+delete '/secure/:id' do
         tweet = Tweet.find_by_id(params[:id])
     if tweet
         tweet.destroy
