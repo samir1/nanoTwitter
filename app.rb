@@ -46,7 +46,6 @@ post '/login/attempt' do
   redirect to where_user_came_from 
 end
 
-
 get '/logout' do
   session.delete(:identity)
   erb "<div class='alert alert-message'>Logged out</div>"
@@ -54,7 +53,7 @@ end
 
 
 get '/user/profile' do
-  erb :timeline
+  erb :profile
 end
 
 
