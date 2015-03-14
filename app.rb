@@ -69,8 +69,14 @@ delete '/secure/:id' do
     end
 end
 
-put '/user/register' do
+get '/user/register' do
     erb :register
 end
+
+put '/register/attempt' do
+ puts 'register a user'
+end
+
+
 
 
