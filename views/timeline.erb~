@@ -5,7 +5,7 @@
 	<input class="btn primary" type='submit' value='tweet'>
 </form>
 
-	<% tweets = Tweet.where(owner: session[:id]).order('id DESC') %>
+	<% tweets = Tweet.where(owner: session[:id]) %>
 	<% tweets.each do |t| %>
 	<%= "@#{session[:username]}: #{t.text} <br /><br />" %>
 	<% end %>
