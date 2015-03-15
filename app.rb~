@@ -1,6 +1,6 @@
 require 'rubygems'
 require 'sinatra'
-require 'activerecord'
+require 'active_record'
 require './models/user'
 require './models/tweet'
 # require 'sinatra/active_record'

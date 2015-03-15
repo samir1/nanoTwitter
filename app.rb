@@ -108,4 +108,8 @@ post '/tweet' do
   redirect to '/'
 end
 
+post '/follow' do
+    follower = params[:
+end
+
 
