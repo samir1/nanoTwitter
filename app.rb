@@ -5,11 +5,11 @@ require './models/user'
 require './models/tweet'
 # require 'sinatra/active_record'
 
-
-ActiveRecord::Base.establish_connection(
-  :adapter => 'sqlite3',
-  :database =>  'db/production.sqlite3'
-)
+configure do
+    env = ENV["SINATRA_ENV"] || "development"
+    databases = YAML.load_file("config/database.yml")
+    ActiveRecord::Base.establish_connection(databases[env])
+end 
 
 configure do
   enable :sessions
