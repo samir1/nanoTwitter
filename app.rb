@@ -6,77 +6,75 @@ require './models/tweet'
 # require 'sinatra/active_record'
 
 configure do
+    enable :sessions
+    
     env = ENV["SINATRA_ENV"] || "development"
     databases = YAML.load_file("config/database.yml")
     ActiveRecord::Base.establish_connection(databases[env])
 end 
 
-configure do
-  enable :sessions
-end
-
 helpers do
-  def username
-    session[:username] ? session[:username] : 'Login'
-  end
+    def username
+        session[:username] ? session[:username] : 'Login'
+    end
 end
 
 before '/user/profile' do
-  if !session[:username] then
-    session[:previous_url] = request.path
-    @error = 'Must be logged into to visit ' + request.path
-    halt erb(:login_form)
-  end
+    if !session[:username] then
+        session[:previous_url] = request.path
+        @error = 'Must be logged into to visit ' + request.path
+        halt erb(:login_form)
+    end
 end
 
 before '/tweet' do
-  if !session[:username] and session[:username] != @current_user.username then
-    session[:previous_url] = request.path
-    @error = 'Must be logged into to visit ' + request.path
-    halt erb(:login_form)
-  end
+    if !session[:username] and session[:username] != @current_user.username then
+        session[:previous_url] = request.path
+        @error = 'Must be logged into to visit ' + request.path
+        halt erb(:login_form)
+    end
 end
 
 get '/' do
-  if session[:username]
-    erb :timeline
-  else
-    erb :main
-  end
+    if session[:username]
+        erb :timeline
+    else
+        erb :main
+    end
 end
 
 get '/login' do 
-  erb :login_form
+    erb :login_form
 end
 
 post '/login/attempt' do
-  @current_user = User.find_by(username: params[:username], password: params[:password])
-  if !@current_user
-    redirect to '/login'
-  else
-    session[:username] = @current_user.username
-    session[:name] = @current_user.name
-    session[:email] = @current_user.email
-    session[:id] = @current_user.id
-  end
-  where_user_came_from = session[:previous_url] || '/'
-  redirect to where_user_came_from 
+    @current_user = User.find_by(username: params[:username], password: params[:password])
+    if !@current_user
+        redirect to '/login'
+    else
+        session[:username] = @current_user.username
+        session[:name] = @current_user.name
+        session[:email] = @current_user.email
+        session[:id] = @current_user.id
+    end
+    where_user_came_from = session[:previous_url] || '/'
+    redirect to where_user_came_from 
 end
 
 get '/logout' do
-  session.clear
-  erb "<div class='alert alert-message'>Logged out</div>"
+    session.clear
+    erb "<div class='alert alert-message'>Logged out</div>"
 end
 
 
 get '/user/profile' do
-  erb :profile
+    erb :profile
 end
 
 
 #tweets
 delete '/delete/:id' do
-        tweet = Tweet.find_by_id(params[:id])
+    tweet = Tweet.find_by_id(params[:id])
     if tweet
         tweet.destroy
         tweet.to_json
@@ -86,30 +84,28 @@ delete '/delete/:id' do
 end
 
 get '/user/register' do
-  erb :register
+    erb :register
 end
 
 post '/user/register/attempt' do
-  @current_user = User.new(name: params[:name], username: params[:username], email: params[:email], password: params[:password])
-  if @current_user.save
-    session[:username] = params[:username]
-    session[:name] = params[:name]
-    session[:email] = params[:email]
-    session[:id] = params[:id]
-    redirect to "/user/profile"
-  else
-    erb :register
-  end
+    @current_user = User.new(name: params[:name], username: params[:username], email: params[:email], password: params[:password])
+    if @current_user.save
+        session[:username] = params[:username]
+        session[:name] = params[:name]
+        session[:email] = params[:email]
+        session[:id] = params[:id]
+        redirect to "/user/profile"
+    else
+        erb :register
+    end
 end
 
 post '/tweet' do
-  tweet = Tweet.new(text: params[:tweet], owner: session[:id])
-  tweet.save!
-  redirect to '/'
+    tweet = Tweet.new(text: params[:tweet], owner: session[:id])
+    tweet.save!
+    redirect to '/'
 end
 
 # post '/follow' do
 #     follower = params[:
 # end
-
-
