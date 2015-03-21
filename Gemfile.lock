@@ -45,6 +45,7 @@ PLATFORMS
 DEPENDENCIES
   activerecord
   json
+  minitest
   pg
   sinatra
   sinatra-activerecord
