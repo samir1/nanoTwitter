@@ -3,7 +3,7 @@ require_relative "../app"
 
 describe "User", "A simple user example" do
 
-  let(:user) { User.new(:name => "mike", :username => "tester", :email => "test@email.address", :password => "strongpass") }
+  let(:user) { User.new("mike", "tester", "test@email.address", "strongpass") }
   
         
           it "has a name" do
