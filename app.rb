@@ -46,6 +46,10 @@ get '/login' do
     erb :login_form
 end
 
+get '/loaderio-2aee583d8cfdd329307e880970966129/' do
+  "loaderio-2aee583d8cfdd329307e880970966129"
+end
+
 post '/login/attempt' do
     @current_user = User.find_by(username: params[:username], password: params[:password])
     if !@current_user
