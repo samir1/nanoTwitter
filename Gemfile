@@ -4,6 +4,12 @@ gem "sinatra"
 gem "json"
 gem "activerecord"
 gem "sinatra-activerecord"
-gem "sqlite3"
-gem "pg"
 gem "minitest"
+
+group :development do
+	gem "sqlite3"
+end
+
+group :production do
+	gem "pg"
+end
