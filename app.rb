@@ -8,7 +8,7 @@ require './models/tweet'
 configure do
     enable :sessions
     env = ENV["SINATRA_ENV"] || "development"
-    databases = YAML.load_file("config/database.yml")
+    databases = YAML.load(ERB.new(File.read("config/database.yml")).result)
     ActiveRecord::Base.establish_connection(databases[env])
 end 
 
