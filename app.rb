@@ -42,10 +42,6 @@ get '/' do
     end
 end
 
-get '/favicon.ico' do
-    redirect '/img/favicon.ico'
-end
-
 get '/login' do 
     erb :login_form
 end
