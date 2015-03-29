@@ -1,0 +1,11 @@
+<h3>@<%= params['username'] %></h3>
+<!-- <form action='/tweet' method='post' class="form-inline well">
+	<textarea rows="4" cols="44" placeholder="What's happening?" name="tweet"></textarea>
+	<br />
+	<input class="btn primary" type='submit' value='tweet'>
+</form> -->
+	<% userId = User.where(username: "samir1").take.id %>
+	<% tweets = Tweet.where(owner: userId).order('id DESC') %>
+	<% tweets.each do |t| %>
+	<%= "@#{session[:username]}: #{t.text} <br /><br />" %>
+	<% end %>

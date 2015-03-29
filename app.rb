@@ -109,6 +109,9 @@ post '/tweet' do
     redirect to '/'
 end
 
+get '/user/:username' do
+    erb :user
+end
 # post '/follow' do
 #     follower = params[:
 # end
