@@ -3,6 +3,7 @@ require 'sinatra'
 require 'active_record'
 require './models/user'
 require './models/tweet'
+require './models/follow'
 # require 'sinatra/active_record'
 
 configure do
@@ -74,8 +75,6 @@ get '/user/profile' do
     erb :profile
 end
 
-
-#tweets
 delete '/delete/:id' do
     tweet = Tweet.find_by_id(params[:id])
     if tweet
@@ -96,13 +95,14 @@ post '/user/register/attempt' do
         session[:username] = params[:username]
         session[:name] = params[:name]
         session[:email] = params[:email]
-        session[:id] = params[:id]
+        session[:id] = User.where(username: params[:username]).take.id
         redirect to "/user/profile"
     else
         erb :register
     end
 end
 
+#tweet
 post '/tweet' do
     tweet = Tweet.new(text: params[:tweet], owner: session[:id])
     tweet.save!
@@ -112,6 +112,15 @@ end
 get '/user/:username' do
     erb :user
 end
-# post '/follow' do
-#     follower = params[:
-# end
+
+post '/follow' do
+    Follow.new(userId: params[:followId], followerId: session[:id]).save
+    where_user_came_from = "/user/#{params[:followName]}" || '/'
+    redirect to where_user_came_from 
+end
+
+post '/unfollow' do
+    followRecord = Follow.where(userId: params[:followId], followerId: session[:id]).take.delete
+    where_user_came_from = "/user/#{params[:followName]}" || '/'
+    redirect to where_user_came_from 
+end

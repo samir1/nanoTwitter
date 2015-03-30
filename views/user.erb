@@ -1,11 +1,23 @@
-<h3>@<%= params['username'] %></h3>
-<!-- <form action='/tweet' method='post' class="form-inline well">
-	<textarea rows="4" cols="44" placeholder="What's happening?" name="tweet"></textarea>
-	<br />
-	<input class="btn primary" type='submit' value='tweet'>
-</form> -->
-	<% userId = User.where(username: "samir1").take.id %>
-	<% tweets = Tweet.where(owner: userId).order('id DESC') %>
-	<% tweets.each do |t| %>
+<% userId = User.where(username: params['username']).take.id %>
+<div class="well">
+<h3 style="display:inline; !important">@<%= params['username'] %></h3>
+<% if Follow.where(userId: userId, followerId: session[:id]).take %>
+	<form action='/unfollow' style="display:inline; !important" method='post' class="form-inline">
+		<input name="followId" style="display:inline; !important" type="hidden" value="<%= userId %>" />
+		<input name="followName" style="display:inline; !important" type="hidden" value="<%= params['username'] %>" />
+		<input class="btn primary" style="display:inline; !important" type="submit" value="Unfollow" />
+	</form>
+<% else %>
+	<form action='/follow' style="display:inline; !important" method='post' class="form-inline">
+		<input name="followId" style="display:inline; !important" type="hidden" value="<%= userId %>" />
+		<input name="followName" style="display:inline; !important" type="hidden" value="<%= params['username'] %>" />
+		<input class="btn primary" style="display:inline; !important" type="submit" value="Follow" />
+	</form>
+<% end %>
+</div>
+<div class="well">
+<% tweets = Tweet.where(owner: userId).order('id DESC') %>
+<% tweets.each do |t| %>
 	<%= "@#{session[:username]}: #{t.text} <br /><br />" %>
-	<% end %>
+<% end %>
+</div>

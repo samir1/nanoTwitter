@@ -1,11 +1,15 @@
-<h3>@<%= username %></h3>
-<form action='/tweet' method='post' class="form-inline well">
+<div class="well">
+<h3 style="display:inline; !important">@<%= username %></h3>
+<br /><br />
+<form action='/tweet' method='post' class="form-inline">
 	<textarea rows="4" cols="44" placeholder="What's happening?" name="tweet"></textarea>
 	<br />
 	<input class="btn primary" type='submit' value='tweet'>
 </form>
-
-	<% tweets = Tweet.where(owner: session[:id]).order('id DESC') %>
-	<% tweets.each do |t| %>
+</div>
+<div class="well">
+<% tweets = Tweet.where(owner: session[:id]).order('id DESC') %>
+<% tweets.each do |t| %>
 	<%= "@#{session[:username]}: #{t.text} <br /><br />" %>
-	<% end %>
+<% end %>
+</div>

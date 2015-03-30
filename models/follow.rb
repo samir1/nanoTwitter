@@ -1,5 +1,5 @@
 class Follow < ActiveRecord::Base
-    # validates_uniqueness_of :name, :email
+    validates_uniqueness_of :userId, :followerId
     
     def to_json
         super()
