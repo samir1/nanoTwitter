@@ -9,7 +9,10 @@
 </div>
 <div class="well">
 <% tweets = Tweet.where(owner: session[:id]).order('id DESC') %>
+<% addline = false %>
 <% tweets.each do |t| %>
-	<%= "@#{session[:username]}: #{t.text} <br /><br />" %>
+	<% if addline %> <br /> <% end %>
+	<%= "@#{session[:username]}: #{t.text} <br />" %>
+	<% addline = true %>
 <% end %>
 </div>
