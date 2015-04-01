@@ -8,11 +8,11 @@
 	</form>
 </div>
 <div class="well">
-<% tweets = Tweet.where(owner: session[:id]).order('id DESC') %>
+<% tweets = Tweet.find_by_sql("SELECT DISTINCT Tweets.id, Tweets.text, Users.username, Tweets.created_at FROM Tweets, Follows INNER JOIN Users ON Users.id = Tweets.owner WHERE (Tweets.owner = Follows.userId AND Follows.followerId = #{session[:id]}) OR (Tweets.owner = #{session[:id]}) ORDER BY Tweets.created_at DESC") %>
 <% addline = false %>
 <% tweets.each do |t| %>
 	<% if addline %> <br /> <% end %>
-	<%= "@#{session[:username]}: #{t.text} <br />" %>
+	<%= "<a href='/user/#{t.username}'>@#{t.username}</a>: #{t.text} <br />" %>
 	<% addline = true %>
 <% end %>
 </div>

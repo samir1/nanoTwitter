@@ -11,3 +11,14 @@ Followers:
 		<%= ", " %>
 	<% end %>
 <% end %>
+<br />
+Following:
+<% followers = Follow.where(followerId: session[:id]).order('id DESC') %>
+<% comma = false %>
+<% followers.each do |f| %>
+	<% followerName = User.find(f.userId).username %>
+	<%= "<a href='/user/#{followerName}'>@#{followerName}</a>" %>
+	<% if comma %>
+		<%= ", " %>
+	<% end %>
+<% end %>

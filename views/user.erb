@@ -1,13 +1,13 @@
 <% userId = User.where(username: params['username']).take.id %>
 <div class="well">
 <h3 style="display:inline; !important">@<%= params['username'] %></h3>
-<% if Follow.where(userId: userId, followerId: session[:id]).take %>
+<% if (userId != session[:id]) && (Follow.where(userId: userId, followerId: session[:id]).take) %>
 	<form action='/unfollow' style="display:inline; !important" method='post' class="form-inline">
 		<input name="followId" style="display:inline; !important" type="hidden" value="<%= userId %>" />
 		<input name="followName" style="display:inline; !important" type="hidden" value="<%= params['username'] %>" />
 		<input class="btn primary" style="display:inline; !important" type="submit" value="Unfollow" />
 	</form>
-<% else %>
+<% elsif (userId != session[:id]) %>
 	<form action='/follow' style="display:inline; !important" method='post' class="form-inline">
 		<input name="followId" style="display:inline; !important" type="hidden" value="<%= userId %>" />
 		<input name="followName" style="display:inline; !important" type="hidden" value="<%= params['username'] %>" />
