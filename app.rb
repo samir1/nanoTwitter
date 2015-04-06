@@ -120,7 +120,7 @@ post '/follow' do
 end
 
 post '/unfollow' do
-    followRecord = Follow.where(userId: params[:followId], followerId: session[:id]).take.delete
+    Follow.where(userId: params[:followId], followerId: session[:id]).take.delete
     where_user_came_from = "/user/#{params[:followName]}" || '/'
     redirect to where_user_came_from 
 end
