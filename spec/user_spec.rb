@@ -24,5 +24,20 @@ describe "User", "A simple user example" do
            
             user.password.must_equal "strongpass"
           end
+          
+          it "can register a new account by giving a new name, email and password" do
+            post '/user/register/attempt', {:name => user.name, :username => user.username, :email => user.email, :password => user.password}.to_json
+            last_response.should be_ok
+            session[:username].must_equal user.name
+            session[:id].must_equal User.where(username: user.username).take.id
+          end
+          
+          
+          it "can follow other users"
+          it "can unfollow users"
+          it "can tweet"
+          it "can see last n tweets of followed users"
+          it "can display n of a specific user's tweets"
+          
 
 end

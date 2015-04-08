@@ -1,0 +1,7 @@
+require "minitest/autorun"
+
+describe "nanoTwitter" do
+
+
+end
+
