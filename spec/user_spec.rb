@@ -1,9 +1,23 @@
 require "minitest/autorun"
+require 'rspec'
+require 'rack/test'
 require_relative "../app"
 
 describe "User", "A simple user example" do
+include Rack::Test::Methods
 
-  let(:user) { User.new(:name => "mike", :username => "tester", :email => "test@email.address", :password => "strongpass") }
+  def app 
+    Sinatra::Application
+  end
+  
+    before do
+    User.delete_all
+    end
+
+    let(:user) { User.new(name: "mike",
+                username: "tester",
+                email: "test@email.address",
+                password: "strongpass")}
   
         
           it "has a name" do
@@ -24,15 +38,18 @@ describe "User", "A simple user example" do
            
             user.password.must_equal "strongpass"
           end
-          
-          it "can register a new account by giving a new name, email and password" do
-            post '/user/register/attempt', {:name => user.name, :username => user.username, :email => user.email, :password => user.password}.to_json
-            last_response.should be_ok
-            session[:username].must_equal user.name
-            session[:id].must_equal User.where(username: user.username).take.id
-          end
-          
-          
+          describe "POST on /user/register/attempt" do
+          it "can register a new user" do
+          post('/user/register/attempt', 
+            {   :name => "mike",
+                :username => "tester",
+                :email => "test@email.address",
+                :password => "strongpass"}.to_json )
+        last_response.status.must_equal 302
+        founduser= User.where(username: user.username).take
+        founduser.name.must_equal user.name
+        end
+        end
           it "can follow other users"
           it "can unfollow users"
           it "can tweet"
