@@ -3,45 +3,79 @@ require 'rspec'
 require 'rack/test'
 require_relative '../app'
 
-
-describe "service" do
-	include Rack::Test::Methods
-
   def app 
     Sinatra::Application
   end
 
-  before(:all) do 
+describe "Tweets", "a simple tweet example" do
+	include Rack::Test::Methods
+
+    before do
     User.delete_all
-    User.create(name: "mike",
+    Tweet.delete_all
+    end
+
+    let(:user) { User.new(name: "mike",
                 username: "tester",
                 email: "test@email.address",
-                password: "strongpass")
-                
-  end
+                password: "strongpass")}
+ 
 
-
-  it "should return a users tweets" do
-    get '/api/v1/users/1/tweets' 
-    last_response.should be_ok
-    attributes = JSON.parse(last_response.body) 
-    attributes.first["text"].should == User.find(1).tweets.first.text
+    describe "POST on /tweet" do
+    
+        it "should let a user tweet" do
+            post('/user/register/attempt',
+                    { :name => user.name,
+                    :username => user.username,
+                    :email => user.email,
+                    :password => user.password})
+                    
+                last_response.status.must_equal 302
+                founduser= User.where(username: user.username).take
+            post('/tweet', 
+            { :tweet => "test tweet example text for posting"})
+    last_response.status.must_equal 302
+    tweet=Tweet.where(owner=founduser.id).first
+    tweet.text.must_equal "test tweet example text for posting" 
   end 
 
-  it "should return a tweet based on the id" do
-    get '/api/v1/tweets/1' 
-    last_response.should be_ok
-    attributes = JSON.parse(last_response.body) 
-    attributes["text"].should == Tweet.find(1).text
+  it "should not let a user tweet if theyre not logged in" do
+              post('/user/register/attempt',
+                    { :name => user.name,
+                    :username => user.username,
+                    :email => user.email,
+                    :password => user.password})
+                    
+                last_response.status.must_equal 302
+                founduser= User.where(username: user.username).take
+                get '/logout'
+        post('/tweet', 
+        { :tweet => "test tweet example text for not logged in"})
+    last_response.status.must_equal 400
+    end
+    
   end
+  
+  describe "DELETE on /delete" do
 
-  it "should return the most recent tweets" do
-  	get '/api/v1/tweets/recent/5'
-  	last_response.should be_ok
-	  attributes = JSON.parse(last_response.body)
-    attributes[0]["id"].should == Tweet.all.count
+  it "should delete a tweet" do
+    post('/user/register/attempt',
+                    { :name => user.name,
+                    :username => user.username,
+                    :email => user.email,
+                    :password => user.password})
+                    
+                last_response.status.must_equal 302
+                founduser= User.where(username: user.username).take
+            post('/tweet', 
+            { :tweet => "test tweet example text for deleting"})
+    last_response.status.must_equal 302
+    tweet=Tweet.where(owner=founduser.id).first
+    tweet.text.must_equal "test tweet example text for deleting"
+  	delete('/delete', {:id => tweet.id})
+  	last_response.status.must_equal 200
+  	Tweet.where(owner=user.id).first.must_equal nil
   end
-
-    it "should allow user to post tweet if logged in"
-    it "should prevent non-logged in tweets"
+  end
+    
 end

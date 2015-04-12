@@ -1,13 +1,15 @@
 source "https://rubygems.org"
 
-gem "sinatra", git: 'git@github.com:sinatra/sinatra.git'
+gem "sinatra"
 gem "json"
 gem "sinatra-jsonp"
 gem "activerecord"
 gem "sinatra-activerecord"
 gem "minitest"
 gem "rspec"
+gem "faker"
 gem "rack-test"
+gem "csv"
 
 group :development do
 	gem "sqlite3"

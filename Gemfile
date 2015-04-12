@@ -7,6 +7,7 @@ gem "activerecord"
 gem "sinatra-activerecord"
 gem "minitest"
 gem "rspec"
+gem "faker"
 gem "rack-test"
 
 group :development do

@@ -44,20 +44,36 @@ include Rack::Test::Methods
           describe "POST on /user/register/attempt" do
             it "can register a new user" do
                 post('/user/register/attempt',
-                    { :name => "mike",
-                    :username => "tester",
-                    :email => "test@email.address",
-                    :password => "strongpass"}.to_json)
+                    { :name => user.name,
+                    :username => user.username,
+                    :email => user.email,
+                    :password => user.password})
                     
                 last_response.status.must_equal 302
-                founduser= User.all
-                founduser.must_equal nil
+                founduser= User.where(username: user.username).take
+                founduser.name.must_equal user.name
+                founduser.email.must_equal user.email
             end
         end
-          it "can follow other users"
-          it "can unfollow users"
-          it "can see last n tweets of followed users"
-          it "can display n of a specific user's tweets"
-          
+        
+        describe "POST on /login/attempt" do
+            it "can log in with appropriatte credentials" do
+            user.save
+                post('/login/attempt', 
+                {:username => user.username,
+                 :password => user.password})
+                 
+            last_response.status.must_equal 302
+            end
+            
+            it "cannot log in with invalid credentials" do
+                user.save
+                post('/login/attempt', 
+                {:username => user.username,
+                 :password => "wrongpassword"})
+               
+            last_response.status.must_equal 400
+            end
+        end
 
 end
