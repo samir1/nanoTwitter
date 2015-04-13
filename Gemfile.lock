@@ -19,6 +19,7 @@ GEM
     i18n (0.7.0)
     json (1.8.2)
     minitest (5.5.1)
+    newrelic_rpm (3.11.2.286)
     pg (0.17.1)
     rack (1.6.0)
     rack-protection (1.5.3)
@@ -43,6 +44,7 @@ DEPENDENCIES
   activerecord
   json
   minitest
+  newrelic_rpm
   pg
   sinatra
   sinatra-activerecord
