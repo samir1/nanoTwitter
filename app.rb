@@ -6,9 +6,9 @@ require './models/tweet'
 require './models/follow'
 # require 'sinatra/active_record'
 
-configure :production do
-  require 'newrelic_rpm'
-end
+# configure :production do
+#   require 'newrelic_rpm'
+# end
 
 configure do
     enable :sessions
