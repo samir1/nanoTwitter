@@ -14,7 +14,7 @@ group :production do
 	gem "pg"
 end
 
-gem 'newrelic_rpm'
+# gem 'newrelic_rpm'
 
 #rack server
 gem 'unicorn'
