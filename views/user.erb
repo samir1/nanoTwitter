@@ -1,22 +1,22 @@
-<% userId = User.where(username: params['username']).take.id %>
+<% user_id = User.where(username: params['username']).take.id %>
 <div class="well">
 <h3 style="display:inline; !important">@<%= params['username'] %></h3>
-<% if (userId != session[:id]) && (Follow.where(userId: userId, followerId: session[:id]).take) %>
+<% if (user_id != session[:id]) && (Follow.where(user_id: user_id, follower_id: session[:id]).take) %>
 	<form action='/unfollow' style="display:inline; !important" method='post' class="form-inline">
-		<input name="followId" style="display:inline; !important" type="hidden" value="<%= userId %>" />
+		<input name="followId" style="display:inline; !important" type="hidden" value="<%= user_id %>" />
 		<input name="followName" style="display:inline; !important" type="hidden" value="<%= params['username'] %>" />
 		<input class="btn primary" style="display:inline; !important" type="submit" value="Unfollow" />
 	</form>
-<% elsif (userId != session[:id]) %>
+<% elsif (user_id != session[:id]) %>
 	<form action='/follow' style="display:inline; !important" method='post' class="form-inline">
-		<input name="followId" style="display:inline; !important" type="hidden" value="<%= userId %>" />
+		<input name="followId" style="display:inline; !important" type="hidden" value="<%= user_id %>" />
 		<input name="followName" style="display:inline; !important" type="hidden" value="<%= params['username'] %>" />
 		<input class="btn primary" style="display:inline; !important" type="submit" value="Follow" />
 	</form>
 <% end %>
 </div>
 <div class="well">
-<% tweets = Tweet.where(owner: userId).order('id DESC') %>
+<% tweets = Tweet.where(owner: user_id).order('id DESC') %>
 <% addline = false %>
 <% tweets.each do |t| %>
 	<% if addline %> <br /> <% end %>

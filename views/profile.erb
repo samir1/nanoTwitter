@@ -2,10 +2,10 @@
 Name: <%= session[:name] %> <br />
 Email: <%= session[:email] %><br />
 Followers:
-<% followers = Follow.where(userId: session[:id]).order('id DESC') %>
+<% followers = Follow.where(user_id: session[:id]).order('id DESC') %>
 <% comma = false %>
 <% followers.each do |f| %>
-	<% followerName = User.find(f.followerId).username %>
+	<% followerName = User.find(f.follower_id).username %>
 	<%= "<a href='/user/#{followerName}'>@#{followerName}</a>" %>
 	<% if comma %>
 		<%= ", " %>
@@ -13,10 +13,10 @@ Followers:
 <% end %>
 <br />
 Following:
-<% followers = Follow.where(followerId: session[:id]).order('id DESC') %>
+<% followers = Follow.where(follower_id: session[:id]).order('id DESC') %>
 <% comma = false %>
 <% followers.each do |f| %>
-	<% followerName = User.find(f.userId).username %>
+	<% followerName = User.find(f.user_id).username %>
 	<%= "<a href='/user/#{followerName}'>@#{followerName}</a>" %>
 	<% if comma %>
 		<%= ", " %>

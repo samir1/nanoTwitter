@@ -114,13 +114,13 @@ get '/user/:username' do
 end
 
 post '/follow' do
-    Follow.new(userId: params[:followId], followerId: session[:id]).save
+    Follow.new(user_id: params[:followId], follower_id: session[:id]).save
     where_user_came_from = "/user/#{params[:followName]}" || '/'
     redirect to where_user_came_from 
 end
 
 post '/unfollow' do
-    Follow.where(userId: params[:followId], followerId: session[:id]).take.delete
+    Follow.where(user_id: params[:followId], follower_id: session[:id]).take.delete
     where_user_came_from = "/user/#{params[:followName]}" || '/'
     redirect to where_user_came_from 
 end
