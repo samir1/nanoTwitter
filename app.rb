@@ -75,7 +75,7 @@ get '/user/profile' do
     erb :profile
 end
 
-delete '/delete/:id' do
+delete '/delete/tweet' do
     tweet = Tweet.find_by_id(params[:id])
     if tweet
         tweet.destroy
