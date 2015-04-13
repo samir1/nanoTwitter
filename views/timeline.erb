@@ -8,10 +8,7 @@
 	</form>
 </div>
 <div class="well">
-<%= '*******************' %>
-<%= "SELECT DISTINCT Tweets.id, Tweets.text, Users.username, Tweets.created_at FROM Tweets, Follows INNER JOIN Users ON Users.id = Tweets.owner WHERE (Tweets.owner = Follows.user_id AND Follows.follower_id = #{session[:id]}) OR (Tweets.owner = #{session[:id]}) ORDER BY Tweets.created_at DESC" %>
-<%= '*******************' %>
-<% tweets = Tweet.find_by_sql("SELECT DISTINCT Tweets.id, Tweets.text, Users.username, Tweets.created_at FROM Tweets, Follows INNER JOIN Users ON Users.id = Tweets.owner WHERE (Tweets.owner = Follows.user_id AND Follows.follower_id = #{session[:id]}) OR (Tweets.owner = #{session[:id]}) ORDER BY Tweets.created_at DESC") %>
+<% tweets = Tweet.find_by_sql("SELECT DISTINCT Tweets.id, Tweets.text, Users.username, Tweets.created_at FROM Tweets, Follows, Users WHERE (Users.id = Tweets.owner) AND ((Tweets.owner = Follows.user_id AND Follows.follower_id = #{session[:id]}) OR (Tweets.owner = #{session[:id]})) ORDER BY Tweets.created_at DESC") %>
 <% addline = false %>
 <% tweets.each do |t| %>
 	<% if addline %> <br /> <% end %>
