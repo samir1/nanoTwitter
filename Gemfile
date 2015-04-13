@@ -15,3 +15,6 @@ group :production do
 end
 
 gem 'newrelic_rpm'
+
+#rack server
+gem 'unicorn'
