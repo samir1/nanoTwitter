@@ -1,4 +1,4 @@
-<% user_id = User.where(username: params['username']).take.id %>
+<% user_id = User.where(username: params[:username]).take.id %>
 <div class="well">
 <h3 style="display:inline; !important">@<%= params['username'] %></h3>
 <% if (session[:id]) && (user_id != session[:id]) && (Follow.where(user_id: user_id, follower_id: session[:id]).take) %>
@@ -20,7 +20,7 @@
 <% addline = false %>
 <% tweets.each do |t| %>
 	<% if addline %> <br /> <% end %>
-	<%= "@#{session[:username]}: #{t.text} <br />" %>
+	<%= "<a href='/user/#{params[:username]}'>@#{params[:username]}</a>: #{t.text} <br />" %>
 	<% addline = true %>
 <% end %>
 </div>
