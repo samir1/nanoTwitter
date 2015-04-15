@@ -4,17 +4,21 @@ require 'active_record'
 require './models/user'
 require './models/tweet'
 require './models/follow'
+require 'faker'
+
 # require 'sinatra/active_record'
 
 # configure :production do
 #   require 'newrelic_rpm'
 # end
 
+
 configure do
     enable :sessions
     env = ENV["SINATRA_ENV"] || "development"
     databases = YAML.load(ERB.new(File.read("config/database.yml")).result)
     ActiveRecord::Base.establish_connection(databases[env])
+    load 'seeds.rb'
 end 
 
 helpers do

@@ -1,0 +1,11 @@
+class Tweet < ActiveRecord::Base
+    # validates_uniqueness_of :name, :email
+        validates :text, uniqueness: { scope: :user_id,
+    message: "cant write the same tweet twice" }
+    def to_json
+        super()
+    end
+    
+end
+
+

@@ -5,6 +5,7 @@ gem "json"
 gem "activerecord"
 gem "sinatra-activerecord"
 gem "minitest"
+gem "faker"
 
 group :development do
 	gem "sqlite3"
