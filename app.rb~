@@ -18,8 +18,12 @@ configure do
     env = ENV["SINATRA_ENV"] || "development"
     databases = YAML.load(ERB.new(File.read("config/database.yml")).result)
     ActiveRecord::Base.establish_connection(databases[env])
-    load 'seeds.rb'
 end 
+
+get '/createseeds' do
+   load 'seeds.rb'
+   redirect to '/'
+end
 
 helpers do
     def username
