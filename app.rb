@@ -21,11 +21,6 @@ configure do
     
 end 
 
-get '/createseeds' do
-   load 'seeds.rb'
-   redirect to '/'
-end
-
 helpers do
     def username
         session[:username] ? session[:username] : 'Login'
