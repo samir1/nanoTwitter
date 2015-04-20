@@ -8,9 +8,9 @@ require 'faker'
 
 # require 'sinatra/active_record'
 
-# configure :production do
-#   require 'newrelic_rpm'
-# end
+configure :production do
+  require 'newrelic_rpm'
+end
 
 
 configure do
