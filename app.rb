@@ -121,6 +121,10 @@ post '/tweet' do
     redirect to '/'
 end
 
+get '/tweets/all' do
+    erb :alltweets
+end
+
 get '/user/:username' do
     erb :user
 end
