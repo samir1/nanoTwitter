@@ -12,6 +12,7 @@ require 'faker'
 #   require 'newrelic_rpm'
 # end
 
+ActiveRecord::Base.logger = Logger.new(STDOUT)
 
 configure do
     enable :sessions
