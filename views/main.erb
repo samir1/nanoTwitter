@@ -1,7 +1,7 @@
 <h3>Welcome to nanoTwitter</h3>
 Please <a href="/login" title="">login</a> or <a href="/user/register" title="">register</a>.
 <div class="well">
-<% tweets = Tweet.find_by_sql("SELECT Tweets.owner, Tweets.text, Users.username, Users.id FROM Tweets, Users WHERE (Users.id = Tweets.owner) ORDER BY Tweets.created_at DESC LIMIT 50") %>
+<% tweets = Tweet.last(50).reverse %>
 <% tweets.each do |t| %>
 	<% u = User.find_by(id: t.owner).username %>
 	<%= "<a href='/user/#{u}'>@#{u}</a>: #{t.text} <br /><br />" %>
