@@ -1,0 +1,9 @@
+<h3>Welcome to nanoTwitter</h3>
+Please <a href="/login" title="">login</a> or <a href="/user/register" title="">register</a>.
+<div class="well">
+<% tweets = Tweet.last(50).reorder('created_at DESC') %>
+<% tweets.each do |t| %>
+	<% u = User.find_by(id: t.owner).username %>
+	<%= "<a href='/user/#{u}'>@#{u}</a>: #{t.text} <br /><br />" %>
+<% end %>
+</div>
