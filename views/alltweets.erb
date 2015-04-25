@@ -1,10 +1,9 @@
 <div class="well">
-<% tweets = Tweet.find_by_sql("SELECT Tweets.owner, Tweets.text, Users.username, Users.id FROM Tweets, Users WHERE (Users.id = Tweets.owner) ORDER BY Tweets.created_at DESC LIMIT 50") %>
-<% addline = false %>
+<% tweets = Tweet.last(50).reverse %>
 <% tweets.each do |t| %>
-	<% if addline %> <br /> <% end %>
-	<% u = User.find_by(id: t.owner).username %>
-	<%= "<a href='/user/#{u}'>@#{u}</a>: #{t.text} <br />" %>
-	<% addline = true %>
+	<% if !t.owner.nil? %>
+		<% u = User.find(t.owner).username %>
+		<%= "<a href='/user/#{u}'>@#{u}</a>: #{t.text} <br /><br />" %>
+	<% end %>
 <% end %>
 </div>
