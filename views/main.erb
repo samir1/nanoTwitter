@@ -5,7 +5,7 @@ Please <a href="/login" title="">login</a> or <a href="/user/register" title="">
 <% tweets.each do |t| %>
 	<%= puts t.owner %>
 	<%= puts t.text %>
-	<%= puts t.exists?(t.owner) %>
+	<%= puts User.exists?(t.owner) %>
 	<%= puts %>
 <% end %>
 </div>
