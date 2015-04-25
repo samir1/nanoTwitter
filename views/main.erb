@@ -3,9 +3,10 @@ Please <a href="/login" title="">login</a> or <a href="/user/register" title="">
 <div class="well">
 <% tweets = Tweet.last(50).reverse %>
 <% tweets.each do |t| %>
-	<%= puts t.owner.nil? %>
-	<%= puts t.text %>
-	<%= puts User.exists?(t.owner) %>
-	<%= puts %>
+	<% if !t.owner.nil? %>
+		<% u = User.find(t.owner).username %>
+		<%= "<a href='/user/#{u}'>@#{u}</a>: #{t.text} <br /><br />" %>
+	<% end %>
 <% end %>
 </div>
+
