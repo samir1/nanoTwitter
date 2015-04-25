@@ -5,6 +5,7 @@ Please <a href="/login" title="">login</a> or <a href="/user/register" title="">
 <% tweets.each do |t| %>
 	<%= puts t.owner %>
 	<%= puts t.text %>
+	<%= puts User.find_by(id: t.owner).username %>
 	<%= puts %>
 <% end %>
 </div>
