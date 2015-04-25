@@ -1,0 +1,9 @@
+<div class="well">
+<h3>
+Search Results
+</h3>
+<% users = User.where("username like ?", "%" + params[:searchTerm] + "%") %>
+<% users.each do |u| %>
+	<%= "<a href='/user/#{u.username}'>@#{u.username}</a><br /><br />" %>
+<% end %>
+</div>

@@ -2,25 +2,22 @@
 <div class="well">
 <h3 style="display:inline; !important">@<%= params['username'] %></h3>
 <% if (session[:id]) && (user_id != session[:id]) && (Follow.where(user_id: user_id, follower_id: session[:id]).take) %>
-	<form action='/unfollow' style="display:inline; !important" method='post' class="form-inline">
-		<input name="followId" style="display:inline; !important" type="hidden" value="<%= user_id %>" />
-		<input name="followName" style="display:inline; !important" type="hidden" value="<%= params['username'] %>" />
+	<form action='/unfollow' style="padding-left:10px; display:inline; !important" method='post' class="form-inline">
+		<input name="followId" type="hidden" value="<%= user_id %>" />
+		<input name="followName" type="hidden" value="<%= params['username'] %>" />
 		<input class="btn primary" style="display:inline; !important" type="submit" value="Unfollow" />
 	</form>
 <% elsif (session[:id]) && (user_id != session[:id]) %>
-	<form action='/follow' style="display:inline; !important" method='post' class="form-inline">
-		<input name="followId" style="display:inline; !important" type="hidden" value="<%= user_id %>" />
-		<input name="followName" style="display:inline; !important" type="hidden" value="<%= params['username'] %>" />
+	<form action='/follow' style="padding-left:10px; display:inline; !important" method='post' class="form-inline">
+		<input name="followId" type="hidden" value="<%= user_id %>" />
+		<input name="followName" type="hidden" value="<%= params['username'] %>" />
 		<input class="btn primary" style="display:inline; !important" type="submit" value="Follow" />
 	</form>
 <% end %>
 </div>
 <div class="well">
-<% tweets = Tweet.where(owner: user_id).order('id DESC') %>
-<% addline = false %>
+<% tweets = Tweet.where(owner: user_id).reverse %>
 <% tweets.each do |t| %>
-	<% if addline %> <br /> <% end %>
-	<%= "<a href='/user/#{params[:username]}'>@#{params[:username]}</a>: #{t.text} <br />" %>
-	<% addline = true %>
+	<%= "<a href='/user/#{params[:username]}'>@#{params[:username]}</a>: #{t.text}<br /><br />" %>
 <% end %>
 </div>

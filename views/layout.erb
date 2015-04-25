@@ -32,14 +32,22 @@ window.NREUM||(NREUM={}),__nr_require=function(t,e,n){function r(n){if(!e[n]){va
 			    <a class="navbar-brand" href="/">nanoTwitter</a>
 			  </div>
 			  <div class="navbar-collapse collapse">
-			    <ul class="nav navbar-nav">
-			    </ul>
+			  	<div class="col-sm-3 col-md-3">
+			  		<form action='/search' class="navbar-form" role="search">
+			  			<div class="input-group">
+			  				<input type="text" class="form-control" placeholder="Search for a username" name="searchTerm" id="searchTerm">
+			  				<div class="input-group-btn">
+			  					<button class="btn btn-default" type="submit"><i class="glyphicon glyphicon-search"></i></button>
+			  				</div>
+			  			</div>
+			  		</form>
+			  	</div>
 			    <ul class="nav navbar-nav navbar-right">
 			    	<% if !session[:username] %>
 			    		<li><a href="/login">Login</a></li>
 			    	<% else %>
 						<li class="dropdown">
-			          		<a href="#" class="dropdown-toggle" data-toggle="dropdown">@<%= session[:username] %> <b class="caret"></b></a>
+			          		<a href="/user/<%=session[:username]%>" class="dropdown-toggle" data-toggle="dropdown">@<%= session[:username] %> <b class="caret"></b></a>
 			        		<ul class="dropdown-menu">
 			            		<li><a href="/user/profile">Profile</a></li>
 			            		<li><a href="/tweets/all">Recent Tweets</a></li>

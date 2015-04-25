@@ -146,3 +146,7 @@ post '/unfollow' do
     where_user_came_from = "/user/#{params[:followName]}" || '/'
     redirect to where_user_came_from 
 end
+
+get '/search' do
+    erb :search_results
+end
