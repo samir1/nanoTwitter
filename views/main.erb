@@ -2,5 +2,7 @@
 Please <a href="/login" title="">login</a> or <a href="/user/register" title="">register</a>.
 <div class="well">
 <% tweets = Tweet.last(50).reverse %>
-
+<% tweets.each do |t| %>
+	<%= puts t %>
+<% end %>
 </div>
