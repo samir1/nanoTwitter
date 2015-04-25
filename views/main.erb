@@ -3,8 +3,7 @@ Please <a href="/login" title="">login</a> or <a href="/user/register" title="">
 <div class="well">
 <% tweets = Tweet.last(50).reverse %>
 <% tweets.each do |t| %>
-<% n=t.owner %>
-	<% u = User.where(id: n).take.username %>
+	<% u = User.where(id: t.owner).take.username %>
 	<%= "<a href='/user/#{u}'>@#{u}</a>: #{t.text} <br /><br />" %>
 <% end %>
 </div>
