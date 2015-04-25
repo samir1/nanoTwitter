@@ -3,7 +3,7 @@ Please <a href="/login" title="">login</a> or <a href="/user/register" title="">
 <div class="well">
 <% tweets = Tweet.last(50).reverse %>
 <% tweets.each do |t| %>
-	<%= puts t.owner %>
+	<%= puts t.owner.exists %>
 	<%= puts t.text %>
 	<%= puts User.exists?(t.owner) %>
 	<%= puts %>
