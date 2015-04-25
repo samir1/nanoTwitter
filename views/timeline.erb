@@ -10,7 +10,7 @@
 <div class="well">
 <% followed_user_ids = Follow.select(:user_id).where(:follower_id => session[:id]).pluck(:user_id) %>
 <% followed_user_ids.push(session[:id]) %>
-<% tweets = Tweet.where(:owner => followed_user_ids).reverse %>
+<% tweets = Tweet.where(:owner => followed_user_ids).last(50).reverse %>
 <% tweets.each do |t| %>
 	<% u = User.find(t.owner).username %>
 	<%= "<a href='/user/#{u}'>@#{u}</a>: #{t.text} <br /><br />" %>

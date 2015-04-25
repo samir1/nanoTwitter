@@ -16,7 +16,7 @@
 <% end %>
 </div>
 <div class="well">
-<% tweets = Tweet.where(owner: user_id).reverse %>
+<% tweets = Tweet.where(owner: user_id).last(50).reverse %>
 <% tweets.each do |t| %>
 	<%= "<a href='/user/#{params[:username]}'>@#{params[:username]}</a>: #{t.text}<br /><br />" %>
 <% end %>
