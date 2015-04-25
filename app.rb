@@ -127,7 +127,12 @@ get '/tweets/all' do
 end
 
 get '/user/:username' do
-    erb :user
+    if User.exists?(username: params[:username])
+        erb :user
+    else
+        status 404
+        erb :pagenotfound
+    end
 end
 
 post '/follow' do
