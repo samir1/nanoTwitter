@@ -6,11 +6,10 @@
 </div>
 <br />
 <div class="well">
-<% tweets = Tweet.last(100).reverse %>
+<% tweets = Tweet.includes(:user).last(100).reverse %>
 <% tweets.each do |t| %>
 	<% if !t.owner.nil? %>
-		<% u = User.find(t.owner).username %>
-		<%= "<a href='/user/#{u}'>@#{u}</a>: #{t.text} <br /><br />" %>
+		<%= "<a href='/user/#{t.user.id}'>@#{t.user.username}</a>: #{t.text} <br /><br />" %>
 	<% end %>
 <% end %>
 </div>
