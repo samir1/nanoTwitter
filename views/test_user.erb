@@ -11,9 +11,10 @@
 <div class="well">
 <% followed_user_ids = Follow.select(:user_id).where(:follower_id => user.id).pluck(:user_id) %>
 <% followed_user_ids.push(user.id) %>
-<% tweets = Tweet.where(:owner => followed_user_ids).last(100).reverse %>
+<% tweets = Tweet.includes(:user).where(:owner => followed_user_ids).last(100).reverse %>
 <% tweets.each do |t| %>
-	<% u = User.find(t.owner).username %>
-	<%= "<a href='/user/#{u}'>@#{u}</a>: #{t.text} <br /><br />" %>
+	<% if !t.owner.nil? %>
+		<%= "<a href='/user/#{t.user.username}'>@#{t.user.username}</a>: #{t.text} <br /><br />" %>
+	<% end %>
 <% end %>
 </div>

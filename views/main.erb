@@ -9,7 +9,7 @@
 <% tweets = Tweet.includes(:user).last(100).reverse %>
 <% tweets.each do |t| %>
 	<% if !t.owner.nil? %>
-		<%= "<a href='/user/#{t.user.id}'>@#{t.user.username}</a>: #{t.text} <br /><br />" %>
+		<%= "<a href='/user/#{t.user.username}'>@#{t.user.username}</a>: #{t.text} <br /><br />" %>
 	<% end %>
 <% end %>
 </div>
