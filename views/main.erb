@@ -6,7 +6,7 @@
 </div>
 <br />
 <div class="well">
-<% tweets = Tweet.last(50).reverse %>
+<% tweets = Tweet.last(100).reverse %>
 <% tweets.each do |t| %>
 	<% if !t.owner.nil? %>
 		<% u = User.find(t.owner).username %>
