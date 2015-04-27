@@ -5,11 +5,14 @@
 	<br /><br />
 </div>
 <br />
-<div class="well">
-<% tweets = Tweet.includes(:user).last(100).reverse %>
-<% tweets.each do |t| %>
-	<% if !t.owner.nil? %>
-		<%= "<a href='/user/#{t.user.username}'>@#{t.user.username}</a>: #{t.text} <br /><br />" %>
-	<% end %>
-<% end %>
+<div class="well" id="allTweetsDiv">
+<script type="text/javascript" async defer>
+$.post("/main_page_recent_tweets", function(json) {
+    for (var key in json) {
+       if (json.hasOwnProperty(key)) {
+       		$("#allTweetsDiv").prepend(json[key]);
+       }
+    }
+}, "json");
+</script>
 </div>

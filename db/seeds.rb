@@ -1,4 +1,5 @@
 require 'csv'
+require 'faker'
 
 userIDs=Hash.new 
 puts "starting seed generation"

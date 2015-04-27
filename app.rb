@@ -4,7 +4,7 @@ require 'active_record'
 require './models/user'
 require './models/tweet'
 require './models/follow'
-require 'faker'
+require 'json'
 
 # require 'sinatra/active_record'
 
@@ -183,4 +183,16 @@ end
 
 get '/test_user' do
     erb :test_user
+end
+
+post '/main_page_recent_tweets' do
+    content_type :json
+    tweets = Tweet.includes(:user).last(100)
+    tweets_hash = Hash.new
+    tweets.each do |t|
+        if !t.owner.nil?
+            tweets_hash[t.id] = "<a href='/user/#{t.user.username}'>@#{t.user.username}</a>: #{t.text} <br /><br />"
+        end
+    end
+    tweets_hash.to_json
 end
