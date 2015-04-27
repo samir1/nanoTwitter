@@ -1,5 +1,6 @@
+<% user = User.where(:username => 'test_user').take %>
 <div class="well">
-	<h3 style="display:inline; !important">@<%= username %></h3>
+	<h3 style="display:inline; !important">@<%= user.username %></h3>
 	<br /><br />
 	<form action='/tweet' method='post' class="form-inline">
 		<textarea rows="4" cols="44" placeholder="What's happening?" name="tweet"></textarea>
@@ -8,8 +9,8 @@
 	</form>
 </div>
 <div class="well">
-<% followed_user_ids = Follow.select(:user_id).where(:follower_id => session[:id]).pluck(:user_id) %>
-<% followed_user_ids.push(session[:id]) %>
+<% followed_user_ids = Follow.select(:user_id).where(:follower_id => user.id).pluck(:user_id) %>
+<% followed_user_ids.push(user.id) %>
 <% tweets = Tweet.where(:owner => followed_user_ids).last(100).reverse %>
 <% tweets.each do |t| %>
 	<% u = User.find(t.owner).username %>

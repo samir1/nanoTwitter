@@ -150,3 +150,37 @@ end
 get '/search' do
     erb :search_results
 end
+
+get '/test_reset' do
+    if User.exists?(username: 'test_user')
+        test_user = User.where(:username => 'test_user').take
+        Tweet.destroy_all(owner: test_user.id)
+        Follow.destroy_all(follower_id: test_user.id)
+        User.destroy(test_user.id)
+    end
+    User.new(name: 'test_user', username: 'test_user', email: 'test_user', password: 'test_user').save
+end
+
+get '/test_tweet' do
+    test_user = User.where(:username => 'test_user').take
+    tweet = Tweet.new(text: "Test tweet created at #{Time.now}", owner: test_user.id).save
+end
+
+get '/test_follow' do
+    if User.exists?(username: 'test_user')
+        test_user_id = User.where(:username => 'test_user').take.id
+        rand_user = User.order("RANDOM()").first
+        if rand_user.username == 'test_user'
+            rand_user = User.order("RANDOM()").first
+        end
+        if Follow.exists?(user_id: rand_user.id, follower_id: test_user_id)
+            Follow.where(user_id: rand_user.id, follower_id: test_user_id).take.delete
+        else
+            Follow.new(user_id: rand_user.id, follower_id: test_user_id).save
+        end
+    end
+end
+
+get '/test_user' do
+    erb :test_user
+end
