@@ -196,3 +196,18 @@ post '/main_page_recent_tweets' do
     end
     tweets_hash.to_json
 end
+
+post '/test_user_recent_tweets_timeline' do
+    content_type :json
+    user = User.where(:username => 'test_user').take
+    followed_user_ids = Follow.select(:user_id).where(:follower_id => user.id).pluck(:user_id) 
+    followed_user_ids.push(user.id) 
+    tweets = Tweet.includes(:user).where(:owner => followed_user_ids).last(100).reverse 
+    tweets_hash = Hash.new
+    tweets.each do |t|
+        if !t.owner.nil?
+            tweets_hash[t.id] = "<a href='/user/#{t.user.username}'>@#{t.user.username}</a>: #{t.text} <br /><br />"
+        end
+    end
+    tweets_hash.to_json
+end

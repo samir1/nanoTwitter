@@ -8,13 +8,14 @@
 		<input class="btn primary" type='submit' value='tweet'>
 	</form>
 </div>
-<div class="well">
-<% followed_user_ids = Follow.select(:user_id).where(:follower_id => user.id).pluck(:user_id) %>
-<% followed_user_ids.push(user.id) %>
-<% tweets = Tweet.includes(:user).where(:owner => followed_user_ids).last(100).reverse %>
-<% tweets.each do |t| %>
-	<% if !t.owner.nil? %>
-		<%= "<a href='/user/#{t.user.username}'>@#{t.user.username}</a>: #{t.text} <br /><br />" %>
-	<% end %>
-<% end %>
+<div class="well" id="allTweetsDiv">
+<script type="text/javascript" async defer>
+$.post("/test_user_recent_tweets_timeline", function(json) {
+    for (var key in json) {
+       if (json.hasOwnProperty(key)) {
+       		$("#allTweetsDiv").prepend(json[key]);
+       }
+    }
+}, "json");
+</script>
 </div>
