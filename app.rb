@@ -44,6 +44,7 @@ before '/tweet' do
     end
 end
 
+
 get '/' do
     if session[:username]
         erb :timeline
@@ -53,6 +54,7 @@ get '/' do
 end
 
 get '/login' do 
+    response.headers['Cache-Control'] = 'public, max-age=31536000'
     erb :login_form
 end
 
@@ -85,6 +87,7 @@ end
 
 
 get '/user/profile' do
+    response.headers['Cache-Control'] = 'public, max-age=500'
     erb :profile
 end
 
@@ -99,6 +102,7 @@ delete '/delete/tweet' do
 end
 
 get '/user/register' do
+    response.headers['Cache-Control'] = 'public, max-age=31536000'
     erb :register
 end
 
