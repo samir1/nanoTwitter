@@ -7,19 +7,19 @@ run with `unicorn`
 
 ##Load Testing Routes
 ####Home page
-/  
-/main_page_recent_tweets (data from AJAX call)
+`/`  
+`/main_page_recent_tweets` (data from AJAX call)
 
 ####Test user timeline
-/test_user  
-/test_user_recent_tweets_timeline (data from AJAX call)
+`/test_user`  
+`/test_user_recent_tweets_timeline` (data from AJAX call)
 
 ####Test user tweet
-/test_tweet
+`/test_tweet`
 
 ####Test user follow
-/test_follow
+`/test_follow`
 
 ####Test user reset
-/test_reset
+`/test_reset`
 
